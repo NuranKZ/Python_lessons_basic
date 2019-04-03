@@ -5,9 +5,16 @@
 # Для решения задачи не используйте встроенные функции и функции из модуля math.
 
 def my_round(number, ndigits):
-    pass
+	temp_number = (number*(10**(ndigits)))
+    resid = temp_number - int(temp_number)
+    if resid <=0.5:
+        temp_number = float(int(temp_number))
+    else:
+        temp_number = float(int(temp_number)+1)
+    return temp_number/10**(ndigits)
 
 
+#results was verified in EXCEL :)
 print(my_round(2.1234567, 5))
 print(my_round(2.1999967, 5))
 print(my_round(2.9999967, 5))

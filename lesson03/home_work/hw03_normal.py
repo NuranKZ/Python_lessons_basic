@@ -3,8 +3,16 @@
 # Первыми элементами ряда считать цифры 1 1
 
 def fibonacci(n, m):
-    pass
-
+    def inner_fib(x):
+        if x == 1 or x == 2:
+            return 1
+        else:
+            return inner_fib(x-2)+inner_fib(x-1)
+    
+    fib_list=[]
+    for i in range(n,m+1):
+        fib_list.append(inner_fib(i))
+    return fib_list
 # Задача-2:
 # Напишите функцию, сортирующую принимаемый список по возрастанию.
 # Для сортировки используйте любой алгоритм (например пузырьковый).
