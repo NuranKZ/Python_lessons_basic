@@ -4,7 +4,7 @@
 
 # 1 stage: module import and main functions
 from numpy import random
-import copy
+
 def generate_boch():
     boch_list = list(range(91))[1:]
     random.shuffle(boch_list)
@@ -80,70 +80,48 @@ player1.generate_card()
 player2.generate_card()
 player1_score = 0
 player2_score = 0
+print('START!!!')
 
-
-
-while player1.total < 15 or player1.total < 15:
-    print('START!!!')
-
-    if k == 0:
-        print('конец игры')
-        if player1_score > player2_score:
-            print(player1_name,'выиграл!')
-        elif player1_score > player2_score:
-            print(player2_name,'выиграл!')
+for i in game_round:
+    print('текущий счет: ', player1_score, ':', player2_score)
+    message = 'новый бочонок '+str(i)+', осталось '+str(k-1)
+    print(message)
+    player1.show_card()
+    player2.show_card()
+    player1_answer = input('Зачеркнуть цифру? (y/n): ')
+    if player1_answer == 'y' or player1_answer == 'Y':
+        player1.update_card(i)
+        if player1.res == 0:
+            print(player1_name, 'проиграл :(')
+            player2_score += 1
         else:
-            print('DRAW!!')
-        print('итоговый счет: ', player1_score, ':', player2_score)
-        break
-    else:    
-
-        for i in game_round:
-            print('текущий счет: ', player1_score, ':', player2_score)
-            message = 'новый бочонок '+str(i)+', осталось '+str(k-1)
-            print(message)
-            player1.show_card()
-            player2.show_card()
-            player1_answer = input('Зачеркнуть цифру? (y/n): ')
-            #player1_card_before = copy.deepcopy(player1.final_card)
-            if player1_answer == 'y' or player1_answer == 'Y':
-                player1.update_card(i)
-                if player1.res == 0:
-                    print(player1_name, 'проиграл :(')
-                    #break
-                else:
-                    print('угадал!')
-                    player1_score += 1
-            else:
-                #player1.keep_card(i)
-                player1.update_card(i)
-                if player1.res == 0:
-                    print(player1_name, 'продолжаем...')
-                    player1_score += 1
-                else:
-                    print(player1_name, 'проиграл')
-                    #break
-            print('ход компьютера!')
-            player2.update_card(i)
-            if player2.res == 0:
-                print(player2_name, 'проиграл :)')
-            else:
-                player2_score += 1
-                #break
-            k -= 1
-    if player1_score > player2_score:
-        print(player1_name,'выиграл!')
-    elif player1_score > player2_score:
-        print(player2_name,'выиграл!')
+            print('угадал!')
+            player1_score += 1
     else:
-        print('DRAW!!')
-    print('итоговый счет: ', player1_score, ':', player2_score)
-
-       
-
-
-
-
+        player1.update_card(i)
+        if player1.res == 0:
+            print(player1_name, 'продолжаем...')
+            player1_score += 1            
+            #player1_score += 1
+        else:
+            print(player1_name, 'проиграл')
+            player2_score += 1#break
+    print('ход компьютера!')
+    player2.update_card(i)
+    if player2.res == 0:
+        print(player2_name, 'проиграл :)')
+        player1_score += 1
+    else:
+        player2_score += 1
+                    #break
+    k -= 1
+    print(player1.total, player2.total)
+    if k == 0 or max(player1.total, player2.total) == 15:
+        print('итоговый счет: ', player1_score, ':', player2_score)
+        
+        print('конец игры...')        
+        break
+    
 
 """
 == Лото ==
@@ -172,12 +150,12 @@ while player1.total < 15 or player1.total < 15:
 
 Пользователю предлагается зачеркнуть цифру на карточке или продолжить.
 Если игрок выбрал "зачеркнуть":
-	Если цифра есть на карточке - она зачеркивается и игра продолжается.
-	Если цифры на карточке нет - игрок проигрывает и игра завершается.
+    Если цифра есть на карточке - она зачеркивается и игра продолжается.
+    Если цифры на карточке нет - игрок проигрывает и игра завершается.
 Если игрок выбрал "продолжить":
-	Если цифра есть на карточке - игрок проигрывает и игра завершается.
-	Если цифры на карточке нет - игра продолжается.
-	
+    Если цифра есть на карточке - игрок проигрывает и игра завершается.
+    Если цифры на карточке нет - игра продолжается.
+    
 Побеждает тот, кто первый закроет все числа на своей карточке.
 
 Пример одного хода:
